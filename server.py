@@ -17,8 +17,8 @@ repository_model: RepositoryModel = None
 
 @app.route('/repository', methods=["GET", "POST"])
 async def search_similar_repository(request: req):
-    global app
-
+    """ <repo_id>와 유사한 <nums>개의 repository를 가져오기
+    """
     repo_id = request.args.get('repo_id', "")
 
     if not repo_id:
@@ -45,7 +45,7 @@ async def search_similar_repository(request: req):
 
 @app.listener("before_server_start")
 async def setup_reco_model(app: Sanic, loop):
-    """ Server가 Launch되기 전, recommendation Model을 불러오는 작업
+    """ Server가 Launch되기 전, recommendation Model을 불러오기
     """
     global repository_model
     repository_model = RepositoryModel(app.config['EMBED_PATH'], app.config['NUM_TREES'])
