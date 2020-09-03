@@ -6,8 +6,8 @@ Mail : craftsangjae@gmail.com
 from sanic import Sanic
 from sanic import response as res
 from sanic import request as req
-from model import RepositoryModel
-from config import Setting
+from service.model import RepositoryModel
+from service.config import Setting
 
 app = Sanic("SimilarRepositorySearchService")
 app.config.from_object(Setting)

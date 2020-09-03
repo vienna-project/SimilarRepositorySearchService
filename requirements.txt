@@ -2,3 +2,4 @@ pandas>=0.24
 annoy>=1.16
 sanic>=20
 gunicorn
+requests
