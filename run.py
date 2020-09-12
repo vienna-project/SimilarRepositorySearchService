@@ -7,15 +7,14 @@ from sanic import Sanic
 from sanic import response as res
 from sanic import request as req
 from service.model import RepositoryModel
-from service.config import Setting
+import os
 
 app = Sanic("SimilarRepositorySearchService")
-app.config.from_object(Setting)
 
 repository_model: RepositoryModel = None
 
 
-@app.route('/repository', methods=["GET", "POST"])
+@app.route('/repository/', methods=["GET", "POST"])
 async def search_similar_repository(request: req):
     """ <repo_id>와 유사한 <nums>개의 repository를 가져오기
     """
@@ -48,14 +47,11 @@ async def setup_reco_model(app: Sanic, loop):
     """ Server가 Launch되기 전, recommendation Model을 불러오기
     """
     global repository_model
-    repository_model = RepositoryModel(app.config['EMBED_PATH'], app.config['NUM_TREES'])
+    embed_path = "./volume/embedding.h5"  # Dockerfile specifies this path.
+    num_trees = int(os.environ.get('num_tree', "50"))
+
+    repository_model = RepositoryModel(embed_path, num_trees)
 
 
 if __name__ == "__main__":
-    """
-    Gunicorn : WSGI
-    
-    For Deployment:
-    gunicorn server:app --bind 0.0.0.0:8000 --worker-class sanic.worker.GunicornWorker
-    """
     app.run(host='0.0.0.0', port=8000)

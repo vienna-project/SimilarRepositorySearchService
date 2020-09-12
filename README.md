@@ -16,13 +16,13 @@ It takes about 1 minute to launch. Choose between two web servers, `inbuilt` and
 * inbuilt webserver
 
     ````bash
-    sanic service.server.app --host=0.0.0.0 --port=8000
+    sanic run.app --host=0.0.0.0 --port=8000
     ````
 
 * with `gunicorn`
 
     ````bash
-    gunicorn service.server:app --bind 0.0.0.0:8000 --worker-class sanic.worker.GunicornWorker
+    gunicorn run:app --bind 0.0.0.0:8000 --worker-class sanic.worker.GunicornWorker -t 120
     ````
 
 **Client-side**
